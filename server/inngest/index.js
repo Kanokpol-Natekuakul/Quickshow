@@ -51,7 +51,7 @@ const syncUserUpdation=inngest.createFunction(
 
 const releaseSeatsAndDeleteBooking=inngest.createFunction(
     {id:'release-seats-delete-booking'},
-    {event:'app/checkpatment'},
+    {event:'app/checkpayment'},
     async({event,step})=>{
         const tenMinutesLater=new Date (Date.now()+10*60*1000)
         await step.sleepUntil('wait-for-10-minutes',tenMinutesLater)

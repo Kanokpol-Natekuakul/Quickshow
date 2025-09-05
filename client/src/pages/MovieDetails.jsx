@@ -33,7 +33,7 @@ const MovieDetails = () => {
     try {
       if(!user) return toast.error("Please login")
 
-      const {data} =await axios.post('/api/user/update-favorite',{movieId:id},{headers:{Authorization:`Bearer ${await getToken()}`}})
+      const {data} =await axios.post('/api/user/update-favorites',{movieId:id},{headers:{Authorization:`Bearer ${await getToken()}`}})
 
       if(data.success){
         await fetchFavoriteMoives()

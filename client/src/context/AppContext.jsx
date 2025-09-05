@@ -17,7 +17,7 @@ export const AppProvider=({children})=>{
 
     const [isAdmin,setIsAdmin]=useState(false)
     const [shows,setShows]=useState([])
-    const [favoritemovies,setFavoritemovies]=useState([])
+    const [favoriteMovies,setFavoriteMovies]=useState([])
 
     const image_base_url=import.meta.env.VITE_TMDB_IMAGE_BASE_URL
 
@@ -63,7 +63,7 @@ export const AppProvider=({children})=>{
             `}})
 
             if(data.success){
-                setFavoritemovies(data.movies)
+                setFavoriteMovies(data.movies)
             }else{
                 toast.error(data.message)
             }
@@ -74,7 +74,7 @@ export const AppProvider=({children})=>{
 
     useEffect(()=>{
         fetchShows()
-    })
+    },[])
 
     useEffect(()=>{
         if(user){
@@ -84,7 +84,7 @@ export const AppProvider=({children})=>{
         }
     },[user])
 
-    const value={axios,fetchIsAdmin,user,getToken,navigate,isAdmin,shows,favoritemovies,fetchFavoriteMoives,image_base_url}
+    const value={axios,fetchIsAdmin,user,getToken,navigate,isAdmin,shows,favoriteMovies,fetchFavoriteMoives,image_base_url}
 
     
     return(
