@@ -7,7 +7,7 @@ import { PlayCircleIcon } from 'lucide-react'
 
 const TrailersSection = () => {
     const [currentTrailer,setCurrentTrailer]=useState(dummyTrailers[0])
-    console.log(currentTrailer)
+    // console.log(currentTrailer)
   return (
     <div className='px-6 md:px-16 lg:px-24 xl:px-44 py-20 overflow-hidden'>
         <p className='text-gray-300 font-medium text-lg max-w-[960px] mx-auto'>Trailers</p>
