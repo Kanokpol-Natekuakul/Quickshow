@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { dummyShowsData } from '../assets/assets'
+import { dummyShowsData, dummyDateTimeData } from '../assets/assets'
 import BlurCircle from '../components/BlurCircle'
 import {Heart, PlayCircleIcon, StarIcon} from 'lucide-react'
 import timeFormat from '../lib/timeFormat'
@@ -15,14 +15,16 @@ const MovieDetails = () => {
   const[show,setShow]=useState(null)
   const navigate =useNavigate()
 
-  const {shows,axios,getToken,user,fetchFavoriteMoives,favoriteMoives,image_base_url}=useAppContext()
+  const {shows,axios,getToken,user,fetchFavoriteMoives,favoriteMovies,toggleFavorite,image_base_url}=useAppContext()
 
   const getShow=async()=>{
     try {
-      const {data}=await axios.get(`/api/show/${id}`)
-      if(data.success){
-        setShow(data)
+      const movie = dummyShowsData.find(m=>m._id===id)
+      if(!movie){
+        return navigate('/movies')
       }
+      const data = {success:true,movie,dateTime: dummyDateTimeData}
+      setShow(data)
     } catch (error) {
       console.log(error)
     }
@@ -31,14 +33,7 @@ const MovieDetails = () => {
 
   const handleFavorite=async()=>{
     try {
-      if(!user) return toast.error("Please login")
-
-      const {data} =await axios.post('/api/user/update-favorites',{movieId:id},{headers:{Authorization:`Bearer ${await getToken()}`}})
-
-      if(data.success){
-        await fetchFavoriteMoives()
-        toast.success(data.message)
-      }
+      await toggleFavorite(id)
     } catch (error) {
       console.log(error)
     }
@@ -71,7 +66,7 @@ const MovieDetails = () => {
             <button className='flex items-center gap-2 px-7 py-3 text-sm bg-gray-800 hover:bg-gray-900 transition rounded-md font-medium cursor-pointer active:scale-95'><PlayCircleIcon className='w-5 h-5'/>Watch Trailer</button>
             <a href="#dateSelect" className='px-10 py-3 text-sm bg-primary hover:bg-primary-dull transition rounded-md font-medium cursor-pointer active:scale-95'>Buy Tickets</a>
             <button onClick={handleFavorite} className='bg-gray-700 p-2.5 rounded-full transition cursor-pointer active:scale-95'>
-              <Heart className={`w-5 h-5 ${favoriteMoives.find(movie=>movie._id===id)?'fill-primary text-primary':''}`}/>
+              <Heart className={`w-5 h-5 ${favoriteMovies.find(movie=>movie._id===id)?'fill-primary text-primary':''}`}/>
             </button>
           </div>
         </div>
